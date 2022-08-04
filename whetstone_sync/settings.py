@@ -11,6 +11,11 @@ today = datetime.now().replace(
 last_modified = today - timedelta(days=280)
 last_modified_ts = last_modified.timestamp()
 
+USER_ENDPOINTS = [
+    {"path": "users"},
+    {"path": "users", "params": {"archived": True}},
+]
+
 ENDPOINTS = [
     {"path": "users"},
     {"path": "users", "params": {"archived": True}},
