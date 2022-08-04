@@ -17,8 +17,6 @@ USER_ENDPOINTS = [
 ]
 
 ENDPOINTS = [
-    {"path": "users"},
-    {"path": "users", "params": {"archived": True}},
     {"path": "assignments", "params": {"lastModified": last_modified_ts}},
     {
         "path": "assignments",
