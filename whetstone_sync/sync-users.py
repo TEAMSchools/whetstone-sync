@@ -66,18 +66,23 @@ def main():
 
                 print(f"\t{u['user_name']} ({u['user_internal_id']}) - CREATED")
             except Exception as xc:
-                print(xc)
-                print(traceback.format_exc())
-                email_subject = (
-                    f"Whetstone User Create Error - {u['user_internal_id']}"
-                )
-                email_body = f"{xc}\n\n{traceback.format_exc()}"
-                email.send_email(subject=email_subject, body=email_body)
+                print(f"\t{xc}")
+                if "A user with this email already exists in this district" in str(xc):
+                    pass
+                else:
+                    print(traceback.format_exc())
+
+                    email_subject = (
+                        f"Whetstone User Create Error - {u['user_internal_id']}"
+                    )
+                    email_body = f"{xc}\n\n{traceback.format_exc()}"
+                    email.send_email(subject=email_subject, body=email_body)
+
                 continue
         else:
             try:
                 ws.put("users", user_id, body=user_payload)
-                print(f"\t{u['user_name']} ({u['user_internal_id']}) - UPDATED")                
+                print(f"\t{u['user_name']} ({u['user_internal_id']}) - UPDATED")
             except Exception as xc:
                 print(xc)
                 print(traceback.format_exc())
@@ -109,7 +114,7 @@ def main():
         for grp in s.get("observationGroups"):
             role_change = False
             grp_users = [su for su in school_users if su["group_name"] == grp["name"]]
-            grp_roles = {k: grp[k] for k in grp if k not in ["_id", "name"]}
+            grp_roles = {k: grp[k] for k in grp if k in ["observees", "observers"]}
             grp_update = {"_id": grp["_id"], "name": grp["name"]}
             for role, membership in grp_roles.items():
                 mem_ids = [m.get("_id") for m in membership]
