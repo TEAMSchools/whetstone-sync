@@ -26,6 +26,6 @@ build-backend = "pdm.pep517.api"
 
 [tool.pdm.scripts]
 _.env_file = ".env"
-extract = { call = "whetstone_sync.extract:main" }
-sync-users = { call = "whetstone_sync.sync_users:main" }
+extract = { call = "whetstone_sync.extract:main", site_packages = true }
+sync-users = { call = "whetstone_sync.sync_users:main", site_packages = true }
 post_lock = { shell = "pdm export -f requirements -o requirements.txt" }
